@@ -1,8 +1,9 @@
-from rest_framework import generics, status, permissions
+from django.contrib.auth.models import User
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.models import User
-from .serializers import RegisterSerializer, LogoutSerializer
+
+from .serializers import LogoutSerializer, RegisterSerializer
 
 
 class RegisterView(generics.CreateAPIView):
@@ -11,6 +12,7 @@ class RegisterView(generics.CreateAPIView):
 
     Allows any user (authenticated or not) to create a new account.
     """
+
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = RegisterSerializer
@@ -23,6 +25,7 @@ class LogoutView(generics.GenericAPIView):
     Accepts a refresh token and adds it to the blacklist,
     effectively invalidating the session.
     """
+
     serializer_class = LogoutSerializer
     permission_classes = (permissions.IsAuthenticated,)
 

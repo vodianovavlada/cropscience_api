@@ -1,9 +1,10 @@
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework import viewsets
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.permissions import IsAuthenticated
+
 from .models import Crop, CropCategory
-from .serializers import CropSerializer, CropCategorySerializer
+from .serializers import CropCategorySerializer, CropSerializer
 
 
 class CropCategoryViewSet(viewsets.ModelViewSet):
@@ -15,6 +16,7 @@ class CropCategoryViewSet(viewsets.ModelViewSet):
     - Create a new category
     - Retrieve, update, or delete a specific category
     """
+
     queryset = CropCategory.objects.all()
     serializer_class = CropCategorySerializer
     permission_classes = [IsAuthenticated]
@@ -31,11 +33,12 @@ class CropViewSet(viewsets.ModelViewSet):
     - Ordering by 'name', 'created_at', and 'growth_duration_days'.
     - Pagination is enabled globally.
     """
+
     queryset = Crop.objects.all()
     serializer_class = CropSerializer
     permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['category', 'water_requirements']
-    search_fields = ['name', 'scientific_name']
-    ordering_fields = ['name', 'created_at', 'growth_duration_days']
+    filterset_fields = ["category", "water_requirements"]
+    search_fields = ["name", "scientific_name"]
+    ordering_fields = ["name", "created_at", "growth_duration_days"]

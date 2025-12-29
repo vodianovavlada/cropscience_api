@@ -10,6 +10,7 @@ class CropCategory(models.Model):
         description (str): Optional detailed description.
         created_at (datetime): Timestamp when the category was created.
     """
+
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -33,15 +34,18 @@ class Crop(models.Model):
         created_at (datetime): Timestamp of creation.
         updated_at (datetime): Timestamp of the last update.
     """
+
     WATER_CHOICES = [
-        ('low', 'Low'),
-        ('medium', 'Medium'),
-        ('high', 'High'),
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
     ]
 
     name = models.CharField(max_length=100)
     scientific_name = models.CharField(max_length=150)
-    category = models.ForeignKey(CropCategory, on_delete=models.CASCADE, related_name='crops')
+    category = models.ForeignKey(
+        CropCategory, on_delete=models.CASCADE, related_name="crops"
+    )
     description = models.TextField(blank=True, null=True)
     growth_duration_days = models.IntegerField()
     water_requirements = models.CharField(max_length=10, choices=WATER_CHOICES)
@@ -50,8 +54,8 @@ class Crop(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['name']),
-            models.Index(fields=['scientific_name']),
+            models.Index(fields=["name"]),
+            models.Index(fields=["scientific_name"]),
         ]
 
     def __str__(self):
